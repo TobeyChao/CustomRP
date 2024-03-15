@@ -19,6 +19,7 @@ namespace LiteRP
 
         private void InitRenderGraph()
         {
+            RTHandles.Initialize(Screen.width, Screen.height);
             m_RenderGraph = new RenderGraph("LiteRP RenderGraph");
             m_Recorder = new LiteRenderGraphRecorder();
             m_ContextContainer = new ContextContainer();
@@ -34,6 +35,7 @@ namespace LiteRP
         {
             m_ContextContainer?.Dispose();
             m_ContextContainer = null;
+            m_Recorder?.Dispose();
             m_Recorder = null;
             m_RenderGraph?.Cleanup();
             m_RenderGraph = null;
@@ -65,8 +67,6 @@ namespace LiteRP
                 return;
 
             CommandBuffer cmd = CommandBufferPool.Get(camera.name);
-
-            context.SetupCameraProperties(camera);
 
             RenderAndExcuteRenderGraph(context, camera, cmd);
 
